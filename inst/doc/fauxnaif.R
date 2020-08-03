@@ -12,10 +12,10 @@ fauxnaif::faux_census
 faux_census$income
 
 ## -----------------------------------------------------------------------------
-na_if(faux_census$income, 9999999)
+na_if_in(faux_census$income, 9999999)
 
 ## -----------------------------------------------------------------------------
-faux_census$income %>% na_if(9999999)
+faux_census$income %>% na_if_in(9999999)
 
 ## -----------------------------------------------------------------------------
 faux_census$age
@@ -24,7 +24,7 @@ faux_census$age
 faux_census$age %>% dplyr::na_if(557) %>% dplyr::na_if(2)
 
 ## -----------------------------------------------------------------------------
-faux_census$age %>% na_if(557, 2)
+faux_census$age %>% na_if_in(557, 2)
 
 ## -----------------------------------------------------------------------------
 faux_census$age %>% na_if_not(18:122)
@@ -36,7 +36,7 @@ faux_census$age %>% na_if_not(18:122)
 23.5 %in% 18:122
 
 ## -----------------------------------------------------------------------------
-faux_census$age %>% na_if(~ . < 18, ~ . > 122)
+faux_census$age %>% na_if_in(~ . < 18, ~ . > 122)
 
 ## -----------------------------------------------------------------------------
 library(intrval)
@@ -47,44 +47,43 @@ library(intrval)
 faux_census$age %>% na_if_not(~ . %[]% c(18, 122))
 
 ## -----------------------------------------------------------------------------
-faux_census$age %>% na_if(~ . %][% c(18, 122))
+faux_census$age %>% na_if_in(~ . %][% c(18, 122))
 
 ## -----------------------------------------------------------------------------
 faux_census$religion
 
 ## -----------------------------------------------------------------------------
-faux_census$religion %>% na_if("Religion is the opiate of the people")
+faux_census$religion %>% na_if_in("Religion is the opiate of the people")
 
 ## -----------------------------------------------------------------------------
-faux_census$religion %>% na_if(~ nchar(.) > 25)
+faux_census$religion %>% na_if_in(~ nchar(.) > 25)
 
 ## -----------------------------------------------------------------------------
-faux_census$income %>% na_if(max)
+faux_census$income %>% na_if_in(max)
 
 ## -----------------------------------------------------------------------------
-faux_census$age %>% na_if(min, max)
+faux_census$age %>% na_if_in(min, max)
 
 ## -----------------------------------------------------------------------------
-faux_census %>% dplyr::mutate(income = na_if(income, 9999999))
+library(dplyr)
 
-## -----------------------------------------------------------------------------
-faux_census %>% na_if_at("income", 9999999)
-
-## -----------------------------------------------------------------------------
-faux_census %>% na_if_not_at("age", 18:122)
-
-## -----------------------------------------------------------------------------
-faux_census %>% na_if_at(c("religion", "gender", "race"), ~ nchar(.) > 25)
-
-## -----------------------------------------------------------------------------
-faux_census %>% na_if_if(is.numeric, ~ grepl("999*", as.character(.)))
-
-## -----------------------------------------------------------------------------
-faux_census %>% na_if_all(~ nchar(.) > 25)
+faux_census %>% mutate(income = na_if_in(income, 9999999))
 
 ## -----------------------------------------------------------------------------
 faux_census %>%
-  na_if_not_at("age", 18:122) %>%
-  na_if_if(is.numeric, ~ grepl("999*", as.character(.))) %>%
-  na_if_all(~ nchar(.) > 25)
+  mutate(across(c(religion, gender, race), na_if_in, ~ nchar(.) > 25))
+
+## -----------------------------------------------------------------------------
+faux_census %>% mutate(across(where(is.numeric), na_if_in, ~ grepl("999", .)))
+
+## -----------------------------------------------------------------------------
+faux_census %>% mutate(across(everything(), na_if_in, ~ nchar(.) > 25))
+
+## -----------------------------------------------------------------------------
+faux_census %>%
+  mutate(
+    age = na_if_not(age, 18:122),
+    across(where(is.numeric), na_if_in, ~ grepl("999", .)),
+    across(everything(), na_if_in, ~ nchar(.) > 25)
+  )
 

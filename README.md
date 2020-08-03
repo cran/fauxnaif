@@ -5,14 +5,14 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/fauxnaif)](https://CRAN.R-project.org/package=fauxnaif)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![License:
-MIT](https://img.shields.io/badge/License-MIT-blueviolet.svg)](https://opensource.org/licenses/MIT)
-[![Travis build
-status](https://travis-ci.org/rossellhayes/fauxnaif.svg?branch=master)](https://travis-ci.org/rossellhayes/fauxnaif)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/rossellhayes/fauxnaif?branch=master&svg=true)](https://ci.appveyor.com/project/rossellhayes/fauxnaif)
+MIT](https://img.shields.io/badge/license-MIT-blueviolet.svg)](https://opensource.org/licenses/MIT)
+[![R build
+status](https://github.com/rossellhayes/fauxnaif/workflows/R-CMD-check/badge.svg)](https://github.com/rossellhayes/fauxnaif/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/rossellhayes/fauxnaif/branch/master/graph/badge.svg)](https://codecov.io/gh/rossellhayes/fauxnaif?branch=master)
 <!-- badges: end -->
@@ -28,18 +28,21 @@ person who pretends to be simple or innocent
 
 **fauxnaif** provides an extension to `dplyr::na_if()`. Unlike
 [**dplyr**](https://github.com/tidyverse/dplyr)’s `na_if()`,
-`fauxnaif::na_if()` allows you to specify multiple values to be replaced
-with `NA` using a single function. **fauxnaif** also includes a
-complementary function `na_if_not()` and a set of scoped functions –
-`na_if_at()`, `_if()`, `_all()`, `_not_at()`, `_not_if()`, and
-`_not_all()` – that can operate directly on data frames.
-
-Load **fauxnaif** after **dplyr** or use a conflict manager like
-[**conflicted**](https://github.com/r-lib/conflicted) to ensure you get
-its extended `na_if()` functionality. Alternatively, use `na_if_in()` to
-avoid conflicts with **dplyr**.
+`na_if_in()` allows you to specify multiple values to be replaced with
+`NA` using a single function. **fauxnaif** also includes a complementary
+function `na_if_not()` to specify values to keep.
 
 ## Installation
+
+You can install `fauxnaif` from
+[CRAN](https://cran.r-project.org/package=fauxnaif):
+
+``` r
+install.packages("fauxanif")
+```
+
+Or the development version from
+[GitHub](https://github.com/rossellhayes/fauxnaif):
 
 ``` r
 # install.packages("remotes")
@@ -68,7 +71,7 @@ We can replace -1…
 … explicitly:
 
 ``` r
-na_if(-1:10, -1)
+na_if_in(-1:10, -1)
 #>  [1] NA  0  1  2  3  4  5  6  7  8  9 10
 ```
 
@@ -82,14 +85,14 @@ na_if_not(-1:10, 0:10)
 … using a formula:
 
 ``` r
-na_if(-1:10, ~ . < 0)
+na_if_in(-1:10, ~ . < 0)
 #>  [1] NA  0  1  2  3  4  5  6  7  8  9 10
 ```
 
 … or using a function:
 
 ``` r
-na_if(-1:10, min)
+na_if_in(-1:10, min)
 #>  [1] NA  0  1  2  3  4  5  6  7  8  9 10
 ```
 
@@ -104,18 +107,18 @@ We can replace unwanted values…
 … one at a time:
 
 ``` r
-na_if(messy_string, "")
+na_if_in(messy_string, "")
 #> [1] "abc"  NA     "def"  "NA"   "ghi"  "42"   "jkl"  "NULL" "mno"
 ```
 
 … or all at once:
 
 ``` r
-na_if(messy_string, "", "NA", "NULL", 1:100)
+na_if_in(messy_string, "", "NA", "NULL", 1:100)
 #> [1] "abc" NA    "def" NA    "ghi" NA    "jkl" NA    "mno"
-na_if(messy_string, c("", "NA", "NULL", 1:100))
+na_if_in(messy_string, c("", "NA", "NULL", 1:100))
 #> [1] "abc" NA    "def" NA    "ghi" NA    "jkl" NA    "mno"
-na_if(messy_string, list("", "NA", "NULL", 1:100))
+na_if_in(messy_string, list("", "NA", "NULL", 1:100))
 #> [1] "abc" NA    "def" NA    "ghi" NA    "jkl" NA    "mno"
 ```
 
@@ -142,15 +145,15 @@ faux_census
 #> 5 TN        64 9999999 M
 ```
 
-na\_if() is particularly useful inside dplyr::mutate:
+na\_if\_in() is particularly useful inside `dplyr::mutate()`:
 
 ``` r
 faux_census %>%
- dplyr::mutate(
-   income = na_if(income, 9999999),
-   age    = na_if(age, ~ . < 18, ~ . > 120),
+ mutate(
+   income = na_if_in(income, 9999999),
+   age    = na_if_in(age, ~ . < 18, ~ . > 120),
    state  = na_if_not(state, ~ grepl("^[A-Z]{2,}$", .)),
-   gender = na_if(gender, ~ nchar(.) > 20)
+   gender = na_if_in(gender, ~ nchar(.) > 20)
  )
 #> # A tibble: 5 x 4
 #>   state   age income gender
@@ -162,15 +165,16 @@ faux_census %>%
 #> 5 TN       64     NA M
 ```
 
-Or you can use scoped functions (\_at, \_if, and \_all) directly on data
-frames:
+Or you can use `dplyr::across()` on data frames:
 
 ``` r
 faux_census %>%
-  na_if_at("age", ~ . < 18, ~ . > 120) %>% 
-  na_if_not_at("state", ~ grepl("^[A-Z]{2,}$", .)) %>%
-  na_if_if(is.character, ~ nchar(.) > 20) %>%
-  na_if_all(9999999)
+  mutate(
+    across(age, na_if_in, ~ . < 18, ~ . > 120),
+    across(state, na_if_not, ~ grepl("^[A-Z]{2,}$", .)),
+    across(where(is.character), na_if_in, ~ nchar(.) > 20),
+    across(everything(), na_if_in, 9999999)
+  )
 #> # A tibble: 5 x 4
 #>   state   age income gender
 #>   <chr> <dbl>  <dbl> <chr> 
@@ -181,7 +185,7 @@ faux_census %>%
 #> 5 TN       64     NA M
 ```
 
-## Credits
+-----
 
 Hex sticker fonts are
 [Bodoni\*](https://github.com/indestructible-type/Bodoni) by
@@ -191,8 +195,6 @@ Hex sticker fonts are
 
 Image adapted from icon made by [Freepik](https://freepik.com) from
 [flaticon.com](https://www.flaticon.com/free-icon/paper-shredder_1701401).
-
------
 
 Please note that **fauxnaif** is released with a [Contributor Code of
 Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/).

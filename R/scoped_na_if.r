@@ -1,5 +1,7 @@
 #' Convert values to NA in multiple columns
 #'
+#' \lifecycle{deprecated}
+#'
 #' The [dplyr::scoped] variants of [na_if()] and [na_if_not()] can be used
 #' directly within pipelines and can modify multiple variables at once.
 #'  * `*_all()` affects every variable
@@ -22,12 +24,13 @@
 #' }
 #' @return A modified data frame. Matched values in selected columns are
 #'   replaced with `NA`.
-#' @seealso [na_if()] and [na_if_not()] operate directly on vectors
+#' @seealso [na_if_in()] and [na_if_not()] operate directly on vectors
 #'
 #'   [dplyr::mutate_all()], [dplyr::mutate_at()] and [dplyr::mutate_if()] can
 #'   apply any function to variables selected in the same way
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(a = 0:5, b = 5:0, c = as.numeric(0:5), d = letters[1:6])
 #'
 #' na_if_all(df, 0)
@@ -38,6 +41,7 @@
 #'
 #' na_if_if(df, is.integer, 0)
 #' na_if_not_if(df, is.integer, 0:3)
+#' }
 #'
 #' @name scoped_na_if
 
@@ -47,6 +51,10 @@ NULL
 #' @export
 
 na_if_all <- function(.tbl, ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    lifecycle::deprecate_soft("0.6.0", format(sys.call()[1]), "dplyr::across()")
+  }
+
   scoped_na_if(
     fun       = dplyr::mutate_all,
     .tbl      = .tbl,
@@ -59,6 +67,10 @@ na_if_all <- function(.tbl, ...) {
 #' @export
 
 na_if_not_all <- function(.tbl, ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    lifecycle::deprecate_soft("0.6.0", format(sys.call()[1]), "dplyr::across()")
+  }
+
   scoped_na_if(
     fun       = dplyr::mutate_all,
     .tbl      = .tbl,
@@ -72,6 +84,10 @@ na_if_not_all <- function(.tbl, ...) {
 #' @export
 
 na_if_at <- function(.tbl, .vars, ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    lifecycle::deprecate_soft("0.6.0", format(sys.call()[1]), "dplyr::across()")
+  }
+
   scoped_na_if(
     fun       = dplyr::mutate_at,
     .tbl      = .tbl,
@@ -85,6 +101,10 @@ na_if_at <- function(.tbl, .vars, ...) {
 #' @export
 
 na_if_not_at <- function(.tbl, .vars, ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    lifecycle::deprecate_soft("0.6.0", format(sys.call()[1]), "dplyr::across()")
+  }
+
   scoped_na_if(
     fun       = dplyr::mutate_at,
     .tbl      = .tbl,
@@ -99,6 +119,10 @@ na_if_not_at <- function(.tbl, .vars, ...) {
 #' @export
 
 na_if_if <- function(.tbl, .predicate, ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    lifecycle::deprecate_soft("0.6.0", format(sys.call()[1]), "dplyr::across()")
+  }
+
   scoped_na_if(
     fun        = dplyr::mutate_if,
     .tbl       = .tbl,
@@ -112,6 +136,10 @@ na_if_if <- function(.tbl, .predicate, ...) {
 #' @export
 
 na_if_not_if <- function(.tbl, .predicate, ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    lifecycle::deprecate_soft("0.6.0", format(sys.call()[1]), "dplyr::across()")
+  }
+
   scoped_na_if(
     fun        = dplyr::mutate_if,
     .tbl       = .tbl,

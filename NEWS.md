@@ -1,3 +1,9 @@
+# fauxnaif 0.6.0
+
+* No longer produce a warning when no replacements are made.
+* Deprecate scoped na_if() functions and suggest replacing them with `dplyr::across()`.
+* Deprecate `fauxnaif::na_if()` and suggest replacing it with `na_if_in()`.
+
 # fauxnaif 0.5.6
 
 * Scoped na_if_*() functions now call an internal function
