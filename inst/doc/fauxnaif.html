@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alexander Rossell Hayes" />
 
-<meta name="date" content="2020-08-02" />
+<meta name="date" content="2020-09-04" />
 
 <title>fauxnaif</title>
 
@@ -331,7 +331,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">fauxnaif</h1>
 <h4 class="author">Alexander Rossell Hayes</h4>
-<h4 class="date">2020-08-02</h4>
+<h4 class="date">2020-09-04</h4>
 
 
 
@@ -339,30 +339,31 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1>Getting started</h1>
 <p>To demonstrate the basic functionality of <code>fauxnaif</code>, let’s first load the package and an example dataset.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(fauxnaif)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>fauxnaif<span class="op">::</span>faux_census</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;    state  gender               age race            income religion              </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                 </span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;  1 CA     female                80 Native American 2.80e4 Christian             </span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;  2 NY     Woman                 89 Latino          1.49e5 Spiritual not religio~</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  3 CA     Female                48 White           4.79e5 Catholic              </span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;  4 TX     Male                  63 latinx          8.50e4 christian             </span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;  5 PA     Male                  47 asian           4.19e4 Baptist               </span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;  6 TX     Gender is a socia~    57 Race is a soci~ 1.00e7 Religion is the opiat~</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;  7 Canada Male                  49 white           1.49e5 methodist             </span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;  8 TX     Female                50 White           9.88e4 Lutheran              </span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;  9 NY     f                    557 white           9.07e4 Agnostic              </span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt; 10 WA     F                     33 White           4.50e4 Jewish                </span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; 11 TX     Male                  30 White           1.27e5 none                  </span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; 12 OH     Non-binary            42 Caucasian       2.16e4 Roman Catholic        </span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; 13 NC     Female                22 African Americ~ 7.42e4 atheist               </span></span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; 14 LA     Male                   2 White           6.10e4 Christian             </span></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt; 15 LA     Female                28 Black           2.00e4 Not religious         </span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; 16 CA     male                  34 Asian American  7.74e4 Christian             </span></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; 17 TN     M                     64 white           1.00e7 Nothing               </span></span>
-<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; 18 FL     Female                68 white           4.71e4 None                  </span></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="co">#&gt; 19 OH     Male                  39 black           2.38e4 baptist               </span></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="co">#&gt; 20 NH     male                  73 Hispanic        3.32e4 Christian</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>fauxnaif<span class="op">::</span>faux_census</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;    state  gender               age race            income religion              </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                 </span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;  1 CA     female                80 Native American 2.80e4 Christian             </span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  2 NY     Woman                 89 Latino          1.49e5 Spiritual not religio~</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;  3 CA     Female                48 White           4.79e5 Catholic              </span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;  4 TX     Male                  63 latinx          8.50e4 christian             </span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;  5 PA     Male                  47 asian           4.19e4 Baptist               </span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;  6 TX     Gender is a socia~    57 Race is a soci~ 1.00e7 Religion is the opiat~</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;  7 Canada Male                  49 white           1.49e5 methodist             </span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;  8 TX     Female                50 White           9.88e4 Lutheran              </span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;  9 NY     f                    557 white           9.07e4 Agnostic              </span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; 10 WA     F                     33 White           4.50e4 Jewish                </span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; 11 TX     Male                  30 White           1.27e5 none                  </span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; 12 OH     Non-binary            42 Caucasian       2.16e4 Roman Catholic        </span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; 13 NC     Female                22 African Americ~ 7.42e4 atheist               </span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt; 14 LA     Male                   2 White           6.10e4 Christian             </span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; 15 LA     Female                28 Black           2.00e4 Not religious         </span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; 16 CA     male                  34 Asian American  7.74e4 Christian             </span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; 17 TN     M                     64 white           1.00e7 Nothing               </span></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co">#&gt; 18 FL     Female                68 white           4.71e4 None                  </span></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="co">#&gt; 19 OH     Male                  39 black           2.38e4 baptist               </span></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt; 20 NH     male                  73 Hispanic        3.32e4 Christian</span></span></code></pre></div>
 <p>We can see the example dataset in full above. The data is a small section of census-like information. This dataset needs a lot of cleaning. Other tools like <code>dplyr</code> and <code>tidyr</code> would likely be needed to really analyze this data, but we’ll focus on the aspects that can be handled by <code>fauxnaif</code>.</p>
 </div>
 <div id="the-most-basic-case" class="section level1">

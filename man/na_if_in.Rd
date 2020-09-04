@@ -6,14 +6,14 @@
 \alias{na_if_not}
 \title{Convert values to NA}
 \usage{
-na_if_in(input, ...)
+na_if_in(x, ...)
 
-na_if(input, ...)
+na_if(x, ...)
 
-na_if_not(input, ...)
+na_if_not(x, ...)
 }
 \arguments{
-\item{input}{Vector to modify}
+\item{x}{Vector to modify}
 
 \item{...}{Values to replace with \code{NA}, specified as either:
 \itemize{
@@ -22,7 +22,7 @@ na_if_not(input, ...)
 }}
 }
 \value{
-A modified version of \code{input} with selected values replaced with
+A modified version of \code{x} with selected values replaced with
 \code{NA}.
 }
 \description{
@@ -41,7 +41,12 @@ These functions accept one-sided formulas that can evaluate to logical
 vectors.
 The input is represented in these conditional statements as "\code{.}".
 Valid formulas take the form \code{~ . < 0}.
-Additional examples are included in section "Examples".
+See examples.
+}
+
+\section{Lifecycle}{
+\lifecycle{deprecated} \code{na_if()} has been deprecated in favor of
+\code{na_if_in()} to avoid masking \code{\link[dplyr:na_if]{dplyr::na_if()}}.
 }
 
 \examples{
@@ -69,8 +74,9 @@ grepl("[a-z]{3,}", messy_string)
 na_if_not(messy_string, ~ grepl("[a-z]{3,}", .))
 
 # na_if_in() is particularly useful inside dplyr::mutate
+library(dplyr)
 faux_census \%>\%
-  dplyr::mutate(
+  mutate(
     state = na_if_in(state, "Canada"),
     age   = na_if_in(age, ~ . < 18, ~ . > 120)
   )
@@ -91,9 +97,6 @@ na_if_in(1:5, 5:1)
 dplyr::na_if(1:5, 5:1)
 }
 \seealso{
-\link[=na_if_all]{Scoped variants} can be used in pipelines and modify
-multiple variables at once
-
 \code{\link[dplyr:na_if]{dplyr::na_if()}} to replace a single value with \code{NA}.
 
 \code{\link[dplyr:coalesce]{dplyr::coalesce()}} to replace missing values with a specified value.

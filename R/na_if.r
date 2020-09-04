@@ -12,21 +12,18 @@
 #' vectors.
 #' The input is represented in these conditional statements as "`.`".
 #' Valid formulas take the form `~ . < 0`.
-#' Additional examples are included in section "Examples".
+#' See examples.
 #'
-#' @param input Vector to modify
+#' @param x Vector to modify
 #' @param ... Values to replace with `NA`, specified as either:
 #' \itemize{
 #'     \item An object, vector of objects, or list of objects
 #'     \item A one-sided formula (see section "Formulas")
 #' }
-#' @return A modified version of `input` with selected values replaced with
+#' @return A modified version of `x` with selected values replaced with
 #' `NA`.
 #'
-#' @seealso [Scoped variants][na_if_all()] can be used in pipelines and modify
-#'   multiple variables at once
-#'
-#'   [dplyr::na_if()] to replace a single value with `NA`.
+#' @seealso [dplyr::na_if()] to replace a single value with `NA`.
 #'
 #'   [dplyr::coalesce()] to replace missing values with a specified value.
 #'
@@ -61,8 +58,9 @@
 #' na_if_not(messy_string, ~ grepl("[a-z]{3,}", .))
 #'
 #' # na_if_in() is particularly useful inside dplyr::mutate
+#' library(dplyr)
 #' faux_census %>%
-#'   dplyr::mutate(
+#'   mutate(
 #'     state = na_if_in(state, "Canada"),
 #'     age   = na_if_in(age, ~ . < 18, ~ . > 120)
 #'   )
@@ -82,24 +80,29 @@
 #' na_if_in(1:5, 5:1)
 #' dplyr::na_if(1:5, 5:1)
 
-na_if_in <- function(input, ...) {
-  faux_na_if(input, ...)
+na_if_in <- function(x, ...) {
+  faux_na_if(x, ...)
 }
 
 #' @rdname na_if_in
+#' @details # Lifecycle
+#'
+#' \lifecycle{deprecated} `na_if()` has been deprecated in favor of
+#' `na_if_in()` to avoid masking [dplyr::na_if()].
+#'
 #' @export
 
-na_if <- function(input, ...) {
-  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
-    lifecycle::deprecate_soft("0.6.0", "fauxnaif::na_if()", "na_if_in()")
+na_if <- function(x, ...) {
+  if (length(sys.call()) > 3 || !is.atomic(...)) {
+    lifecycle::deprecate_warn("0.6.0", "fauxnaif::na_if()", "na_if_in()")
   }
 
-  faux_na_if(input, ...)
+  faux_na_if(x, ...)
 }
 
 #' @rdname na_if_in
 #' @export
 
-na_if_not <- function(input, ...) {
-  faux_na_if(input, ..., not = TRUE)
+na_if_not <- function(x, ...) {
+  faux_na_if(x, ..., not = TRUE)
 }
