@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alexander Rossell Hayes" />
 
-<meta name="date" content="2020-09-04" />
+<meta name="date" content="2022-04-27" />
 
 <title>fauxnaif</title>
 
@@ -29,29 +29,31 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
 
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
-});
-</script>
-
-
-<style type="text/css">code{white-space: pre;}</style>
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -134,6 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
+
 
 
 
@@ -331,332 +334,366 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">fauxnaif</h1>
 <h4 class="author">Alexander Rossell Hayes</h4>
-<h4 class="date">2020-09-04</h4>
+<h4 class="date">2022-04-27</h4>
 
 
 
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
-<p>To demonstrate the basic functionality of <code>fauxnaif</code>, let’s first load the package and an example dataset.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(fauxnaif)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(magrittr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>fauxnaif<span class="op">::</span>faux_census</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;    state  gender               age race            income religion              </span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                 </span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;  1 CA     female                80 Native American 2.80e4 Christian             </span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  2 NY     Woman                 89 Latino          1.49e5 Spiritual not religio~</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;  3 CA     Female                48 White           4.79e5 Catholic              </span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;  4 TX     Male                  63 latinx          8.50e4 christian             </span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;  5 PA     Male                  47 asian           4.19e4 Baptist               </span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;  6 TX     Gender is a socia~    57 Race is a soci~ 1.00e7 Religion is the opiat~</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;  7 Canada Male                  49 white           1.49e5 methodist             </span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;  8 TX     Female                50 White           9.88e4 Lutheran              </span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;  9 NY     f                    557 white           9.07e4 Agnostic              </span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; 10 WA     F                     33 White           4.50e4 Jewish                </span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; 11 TX     Male                  30 White           1.27e5 none                  </span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; 12 OH     Non-binary            42 Caucasian       2.16e4 Roman Catholic        </span></span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; 13 NC     Female                22 African Americ~ 7.42e4 atheist               </span></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt; 14 LA     Male                   2 White           6.10e4 Christian             </span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; 15 LA     Female                28 Black           2.00e4 Not religious         </span></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; 16 CA     male                  34 Asian American  7.74e4 Christian             </span></span>
-<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; 17 TN     M                     64 white           1.00e7 Nothing               </span></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="co">#&gt; 18 FL     Female                68 white           4.71e4 None                  </span></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="co">#&gt; 19 OH     Male                  39 black           2.38e4 baptist               </span></span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt; 20 NH     male                  73 Hispanic        3.32e4 Christian</span></span></code></pre></div>
-<p>We can see the example dataset in full above. The data is a small section of census-like information. This dataset needs a lot of cleaning. Other tools like <code>dplyr</code> and <code>tidyr</code> would likely be needed to really analyze this data, but we’ll focus on the aspects that can be handled by <code>fauxnaif</code>.</p>
+<p>To demonstrate the basic functionality of <code>fauxnaif</code>,
+let’s first load the package and an example dataset.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fauxnaif)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fauxnaif<span class="sc">::</span>faux_census</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 6</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    state  gender                         age race                income religion</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;   </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 CA     female                          80 Native American     2.8 e4 Christi…</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 NY     Woman                           89 Latino              1.49e5 Spiritu…</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 CA     Female                          48 White               4.79e5 Catholic</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 TX     Male                            63 latinx              8.5 e4 christi…</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 PA     Male                            47 asian               4.19e4 Baptist </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 TX     Gender is a social construct    57 Race is a social c… 1.00e7 Religio…</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Canada Male                            49 white               1.49e5 methodi…</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 TX     Female                          50 White               9.88e4 Lutheran</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 NY     f                              557 white               9.07e4 Agnostic</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 WA     F                               33 White               4.50e4 Jewish  </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 TX     Male                            30 White               1.27e5 none    </span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 OH     Non-binary                      42 Caucasian           2.16e4 Roman C…</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 NC     Female                          22 African American    7.42e4 atheist </span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 LA     Male                             2 White               6.1 e4 Christi…</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 LA     Female                          28 Black               2   e4 Not rel…</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 CA     male                            34 Asian American      7.74e4 Christi…</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 TN     M                               64 white               1.00e7 Nothing </span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 FL     Female                          68 white               4.71e4 None    </span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 OH     Male                            39 black               2.38e4 baptist </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 NH     male                            73 Hispanic            3.32e4 Christi…</span></span></code></pre></div>
+<p>We can see the example dataset in full above. The data is a small
+section of census-like information. This dataset needs a lot of
+cleaning. Other tools like <code>dplyr</code> and <code>tidyr</code>
+would likely be needed to really analyze this data, but we’ll focus on
+the aspects that can be handled by <code>fauxnaif</code>.</p>
 </div>
 <div id="the-most-basic-case" class="section level1">
 <h1>The most basic case</h1>
 <p>First, let’s look at the simplest issue in this dataset: income.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>faux_census<span class="op">$</span>income</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt;  [1]   28000  148800  479000   85000   41900 9999999  149000   98800   90750</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; [10]   45010  127000   21600   74200   61000   20000   77400 9999999   47100</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; [19]   23800   33200</span></span></code></pre></div>
-<p>Printing the vector of incomes, one value stands out: while most respondents’ have values in the tens to hundreds of thousands, two respondents have incomes of 9999999. It’s common for datasets you receive from other sources to use an unrealistically high value (often a string of 9s) to indicate <code>NA</code>. We can clean this using <code>na_if_in()</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">na_if_in</span>(faux_census<span class="op">$</span>income, <span class="dv">9999999</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;  [1]  28000 148800 479000  85000  41900     NA 149000  98800  90750  45010</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; [11] 127000  21600  74200  61000  20000  77400     NA  47100  23800  33200</span></span></code></pre></div>
-<p>The new variable has <code>NA</code>s in the place of those strings of 9s.</p>
-<p>As an alternative, we can use the <code>magrittr</code> pipe (<code>%&gt;%</code>) to pass an input into <code>na_if_in()</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>faux_census<span class="op">$</span>income <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(<span class="dv">9999999</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt;  [1]  28000 148800 479000  85000  41900     NA 149000  98800  90750  45010</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; [11] 127000  21600  74200  61000  20000  77400     NA  47100  23800  33200</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>income</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]   28000  148800  479000   85000   41900 9999999  149000   98800   90750</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10]   45010  127000   21600   74200   61000   20000   77400 9999999   47100</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19]   23800   33200</span></span></code></pre></div>
+<p>Printing the vector of incomes, one value stands out: while most
+respondents’ have values in the tens to hundreds of thousands, two
+respondents have incomes of 9999999. It’s common for datasets you
+receive from other sources to use an unrealistically high value (often a
+string of 9s) to indicate <code>NA</code>. We can clean this using
+<code>na_if_in()</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na_if_in</span>(faux_census<span class="sc">$</span>income, <span class="dv">9999999</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  28000 148800 479000  85000  41900     NA 149000  98800  90750  45010</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] 127000  21600  74200  61000  20000  77400     NA  47100  23800  33200</span></span></code></pre></div>
+<p>The new variable has <code>NA</code>s in the place of those strings
+of 9s.</p>
+<p>As an alternative, we can use the <code>magrittr</code> pipe
+(<code>%&gt;%</code>) to pass an input into <code>na_if_in()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>income <span class="sc">%&gt;%</span> <span class="fu">na_if_in</span>(<span class="dv">9999999</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  28000 148800 479000  85000  41900     NA 149000  98800  90750  45010</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] 127000  21600  74200  61000  20000  77400     NA  47100  23800  33200</span></span></code></pre></div>
 <p>This produces the same result.</p>
-<p>This task could have been completed using the version of <code>na_if_in()</code> included in the <code>dplyr</code> package. However, moving forward we will use more advanced functionality of <code>fauxnaif</code>.</p>
+<p>This task could have been completed using the version of
+<code>na_if_in()</code> included in the <code>dplyr</code> package.
+However, moving forward we will use more advanced functionality of
+<code>fauxnaif</code>.</p>
 </div>
 <div id="replacing-multiple-values" class="section level1">
 <h1>Replacing multiple values</h1>
 <p>Let’s now examine the age variable:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>faux_census<span class="op">$</span>age</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt;  [1]  80  89  48  63  47  57  49  50 557  33  30  42  22   2  28  34  64  68  39</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; [20]  73</span></span></code></pre></div>
-<p>In this case, we see two improbable values: 557 and 2 (assuming this is a survey of adults). Using <code>dplyr</code>, this would have to be addressed using two steps:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">na_if</span>(<span class="dv">557</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">na_if</span>(<span class="dv">2</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
-<p>But using <code>fauxnaif</code> we can simplify this to a single step:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(<span class="dv">557</span>, <span class="dv">2</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>age</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  80  89  48  63  47  57  49  50 557  33  30  42  22   2  28  34  64  68  39</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [20]  73</span></span></code></pre></div>
+<p>In this case, we see two improbable values: 557 and 2 (assuming this
+is a survey of adults). Using <code>dplyr</code>, this would have to be
+addressed using two steps:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>age <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">na_if</span>(<span class="dv">557</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">na_if</span>(<span class="dv">2</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
+<p>But using <code>fauxnaif</code> we can simplify this to a single
+step:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>age <span class="sc">%&gt;%</span> <span class="fu">na_if_in</span>(<span class="dv">557</span>, <span class="dv">2</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
 </div>
 <div id="specifying-values-to-keep-rather-than-values-to-discard" class="section level1">
 <h1>Specifying values to keep rather than values to discard</h1>
-<p>In the above example, we were able to examine our dataset and select the values that were unrealistic. In real-life analyses, we often can’t look at each observation one by one to find unrealistic values, but we often do know the range of realistic values. Using <code>na_if_not()</code>, we can specify which values are realistic and discard those that are not.</p>
-<p>Returning to the age variable, let’s replace values with <code>NA</code> if they are <em>not</em> between 18 (the minimum age we expect to enter the survey) and 122 (the world record for the oldest person).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_not</span>(<span class="dv">18</span><span class="op">:</span><span class="dv">122</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
-<p>This has the same effect as specifying the unrealistic values directly, but no longer requires you to directly examine each observation.</p>
+<p>In the above example, we were able to examine our dataset and select
+the values that were unrealistic. In real-life analyses, we often can’t
+look at each observation one by one to find unrealistic values, but we
+often do know the range of realistic values. Using
+<code>na_if_not()</code>, we can specify which values are realistic and
+discard those that are not.</p>
+<p>Returning to the age variable, let’s replace values with
+<code>NA</code> if they are <em>not</em> between 18 (the minimum age we
+expect to enter the survey) and 122 (the world record for the oldest
+person).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>age <span class="sc">%&gt;%</span> <span class="fu">na_if_not</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">122</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
+<p>This has the same effect as specifying the unrealistic values
+directly, but no longer requires you to directly examine each
+observation.</p>
 </div>
 <div id="replacing-values-using-formulas" class="section level1">
 <h1>Replacing values using formulas</h1>
-<p>Another way to approach this problem is to use a formula to specify the range of acceptable values. This is particularly useful when dealing with non-integer values, where the colon operator (<code>:</code>) will not work:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="dv">23</span> <span class="op">%in%</span><span class="st"> </span><span class="dv">18</span><span class="op">:</span><span class="dv">122</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>Another way to approach this problem is to use a formula to specify
+the range of acceptable values. This is particularly useful when dealing
+with non-integer values, where the colon operator (<code>:</code>) will
+not work:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">23</span> <span class="sc">%in%</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">122</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>but</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fl">23.5</span> <span class="op">%in%</span><span class="st"> </span><span class="dv">18</span><span class="op">:</span><span class="dv">122</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
-<p>Formulas in <code>fauxnaif</code> are based on the formula syntax used in <code>rlang</code> and <code>purrr</code>. They are introduced with a tilde (<code>~</code>) and indicate each observation with a dot (<code>.</code>).</p>
-<p>To clean the age variable, we will need two formulas. One will replace values less than 18 and another will replace values greater than 122:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(<span class="op">~</span><span class="st"> </span>. <span class="op">&lt;</span><span class="st"> </span><span class="dv">18</span>, <span class="op">~</span><span class="st"> </span>. <span class="op">&gt;</span><span class="st"> </span><span class="dv">122</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
-<div id="using-relational-operators-from-other-packages" class="section level2">
-<h2>Using relational operators from other packages</h2>
-<p>If you really want to get this down to a single argument, you can use more advanced relational operators provided by packages like <code>intrval</code>, <code>inops</code>, or <code>invctr</code>.</p>
-<p>For example, <code>intrval</code>’s closed interval operator (<code>%[]%</code>) allows you to check if a value is between two values, even if it is not an integer:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">library</span>(intrval)</span>
-<span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="fl">23.5</span> <span class="op">%[]%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">122</span>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>With this, we can clean the age variable using only one formula argument:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_not</span>(<span class="op">~</span><span class="st"> </span>. <span class="op">%[]%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">122</span>))</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
-<p>or</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(<span class="op">~</span><span class="st"> </span>. <span class="op">%][%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">122</span>))</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
-</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fl">23.5</span> <span class="sc">%in%</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">122</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>Formulas in <code>fauxnaif</code> are based on the formula syntax
+used in <code>rlang</code> and <code>purrr</code>. They are introduced
+with a tilde (<code>~</code>) and indicate each observation with a dot
+(<code>.</code>).</p>
+<p>To clean the age variable, we can use two formulas. One will replace
+values less than 18 and another will replace values greater than
+122:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>age <span class="sc">%&gt;%</span> <span class="fu">na_if_in</span>(<span class="sc">~</span> . <span class="sc">&lt;</span> <span class="dv">18</span>, <span class="sc">~</span> . <span class="sc">&gt;</span> <span class="dv">122</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
+<p>Or we can use the <code>between()</code> function from
+<code>dplyr</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>age <span class="sc">%&gt;%</span> <span class="fu">na_if_in</span>(<span class="sc">~</span> <span class="sc">!</span><span class="fu">between</span>(., <span class="dv">18</span>, <span class="dv">122</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
 <div id="using-formulas-for-non-numeric-variables" class="section level2">
 <h2>Using formulas for non-numeric variables</h2>
-<p>Formulas are not only useful when dealing with numeric variables. While it’s straightforward to use relational operators to specify replacements in numeric variables, we can also use more complex formulas to handle other data types.</p>
+<p>Formulas are not only useful when dealing with numeric variables.
+While it’s straightforward to use relational operators to specify
+replacements in numeric variables, we can also use more complex formulas
+to handle other data types.</p>
 <p>Let’s take a look at the religion variable:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>faux_census<span class="op">$</span>religion</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1] &quot;Christian&quot;                           </span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [2] &quot;Spiritual not religious&quot;             </span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt;  [3] &quot;Catholic&quot;                            </span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [4] &quot;christian&quot;                           </span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt;  [5] &quot;Baptist&quot;                             </span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt;  [6] &quot;Religion is the opiate of the people&quot;</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt;  [7] &quot;methodist&quot;                           </span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;  [8] &quot;Lutheran&quot;                            </span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt;  [9] &quot;Agnostic&quot;                            </span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; [10] &quot;Jewish&quot;                              </span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt; [11] &quot;none&quot;                                </span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt; [12] &quot;Roman Catholic&quot;                      </span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; [13] &quot;atheist&quot;                             </span></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt; [14] &quot;Christian&quot;                           </span></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt; [15] &quot;Not religious&quot;                       </span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt; [16] &quot;Christian&quot;                           </span></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt; [17] &quot;Nothing&quot;                             </span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt; [18] &quot;None&quot;                                </span></span>
-<span id="cb15-20"><a href="#cb15-20"></a><span class="co">#&gt; [19] &quot;baptist&quot;                             </span></span>
-<span id="cb15-21"><a href="#cb15-21"></a><span class="co">#&gt; [20] &quot;Christian&quot;</span></span></code></pre></div>
-<p>While there are a few things we might want to clean in this variable, one clear issue is the respondent who did not answer the question but instead used the space to give an opinion: “Religion is the opiate of the people”.</p>
-<p>We could use the most basic form of <code>na_if_in()</code> to simply remove this answer:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>faux_census<span class="op">$</span>religion <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(<span class="st">&quot;Religion is the opiate of the people&quot;</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt;  [1] &quot;Christian&quot;               &quot;Spiritual not religious&quot;</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt;  [3] &quot;Catholic&quot;                &quot;christian&quot;              </span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt;  [5] &quot;Baptist&quot;                 NA                       </span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt;  [7] &quot;methodist&quot;               &quot;Lutheran&quot;               </span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;  [9] &quot;Agnostic&quot;                &quot;Jewish&quot;                 </span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt; [11] &quot;none&quot;                    &quot;Roman Catholic&quot;         </span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; [13] &quot;atheist&quot;                 &quot;Christian&quot;              </span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; [15] &quot;Not religious&quot;           &quot;Christian&quot;              </span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; [17] &quot;Nothing&quot;                 &quot;None&quot;                   </span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt; [19] &quot;baptist&quot;                 &quot;Christian&quot;</span></span></code></pre></div>
-<p>But in a larger analysis, we may prefer to have a simple rule for excluding answers. Perhaps we decide that answers longer than 25 characters are unlikely to be genuine. In that case, we can use a formula operating on the number of characters (<code>nchar(.)</code>) in a response:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>faux_census<span class="op">$</span>religion <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(<span class="op">~</span><span class="st"> </span><span class="kw">nchar</span>(.) <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt;  [1] &quot;Christian&quot;               &quot;Spiritual not religious&quot;</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="co">#&gt;  [3] &quot;Catholic&quot;                &quot;christian&quot;              </span></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="co">#&gt;  [5] &quot;Baptist&quot;                 NA                       </span></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="co">#&gt;  [7] &quot;methodist&quot;               &quot;Lutheran&quot;               </span></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="co">#&gt;  [9] &quot;Agnostic&quot;                &quot;Jewish&quot;                 </span></span>
-<span id="cb17-7"><a href="#cb17-7"></a><span class="co">#&gt; [11] &quot;none&quot;                    &quot;Roman Catholic&quot;         </span></span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt; [13] &quot;atheist&quot;                 &quot;Christian&quot;              </span></span>
-<span id="cb17-9"><a href="#cb17-9"></a><span class="co">#&gt; [15] &quot;Not religious&quot;           &quot;Christian&quot;              </span></span>
-<span id="cb17-10"><a href="#cb17-10"></a><span class="co">#&gt; [17] &quot;Nothing&quot;                 &quot;None&quot;                   </span></span>
-<span id="cb17-11"><a href="#cb17-11"></a><span class="co">#&gt; [19] &quot;baptist&quot;                 &quot;Christian&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>religion</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Christian&quot;                           </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2] &quot;Spiritual not religious&quot;             </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Catholic&quot;                            </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] &quot;christian&quot;                           </span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Baptist&quot;                             </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;Religion is the opiate of the people&quot;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;methodist&quot;                           </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] &quot;Lutheran&quot;                            </span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Agnostic&quot;                            </span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] &quot;Jewish&quot;                              </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;none&quot;                                </span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [12] &quot;Roman Catholic&quot;                      </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;atheist&quot;                             </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [14] &quot;Christian&quot;                           </span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;Not religious&quot;                       </span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] &quot;Christian&quot;                           </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;Nothing&quot;                             </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [18] &quot;None&quot;                                </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;baptist&quot;                             </span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [20] &quot;Christian&quot;</span></span></code></pre></div>
+<p>While there are a few things we might want to clean in this variable,
+one clear issue is the respondent who did not answer the question but
+instead used the space to give an opinion: “Religion is the opiate of
+the people”.</p>
+<p>We could use the most basic form of <code>na_if_in()</code> to simply
+remove this answer:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>religion <span class="sc">%&gt;%</span> <span class="fu">na_if_in</span>(<span class="st">&quot;Religion is the opiate of the people&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Christian&quot;               &quot;Spiritual not religious&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Catholic&quot;                &quot;christian&quot;              </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Baptist&quot;                 NA                       </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;methodist&quot;               &quot;Lutheran&quot;               </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Agnostic&quot;                &quot;Jewish&quot;                 </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;none&quot;                    &quot;Roman Catholic&quot;         </span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;atheist&quot;                 &quot;Christian&quot;              </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;Not religious&quot;           &quot;Christian&quot;              </span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;Nothing&quot;                 &quot;None&quot;                   </span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;baptist&quot;                 &quot;Christian&quot;</span></span></code></pre></div>
+<p>But in a larger analysis, we may prefer to have a simple rule for
+excluding answers. Perhaps we decide that answers longer than 25
+characters are unlikely to be genuine. In that case, we can use a
+formula operating on the number of characters (<code>nchar(.)</code>) in
+a response:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>faux_census<span class="sc">$</span>religion <span class="sc">%&gt;%</span> <span class="fu">na_if_in</span>(<span class="sc">~</span> <span class="fu">nchar</span>(.) <span class="sc">&gt;</span> <span class="dv">25</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Christian&quot;               &quot;Spiritual not religious&quot;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Catholic&quot;                &quot;christian&quot;              </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Baptist&quot;                 NA                       </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;methodist&quot;               &quot;Lutheran&quot;               </span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Agnostic&quot;                &quot;Jewish&quot;                 </span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;none&quot;                    &quot;Roman Catholic&quot;         </span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;atheist&quot;                 &quot;Christian&quot;              </span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;Not religious&quot;           &quot;Christian&quot;              </span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;Nothing&quot;                 &quot;None&quot;                   </span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;baptist&quot;                 &quot;Christian&quot;</span></span></code></pre></div>
 </div>
-</div>
-<div id="replacing-values-using-functions" class="section level1">
-<h1>Replacing values using functions</h1>
-<p>Finally, there are cases when we can use a simple function to replace values.</p>
-<p>Returning to the income variable, we know that <code>NA</code> is indicated using the largest value. Rather than specifying it directly, we can simply tell <code>fauxnaif</code> to replace the variable’s maximum value:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>faux_census<span class="op">$</span>income <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(max)</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co">#&gt;  [1]  28000 148800 479000  85000  41900     NA 149000  98800  90750  45010</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="co">#&gt; [11] 127000  21600  74200  61000  20000  77400     NA  47100  23800  33200</span></span></code></pre></div>
-<p>We can do the same with the age variable, where both the lowest and highest values are unrealistic:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>faux_census<span class="op">$</span>age <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na_if_in</span>(min, max)</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt;  [1] 80 89 48 63 47 57 49 50 NA 33 30 42 22 NA 28 34 64 68 39 73</span></span></code></pre></div>
-<p>But beware! If no respondent had given an unrealistic answer, replacing the minimum or maximum values could result in the loss of real data! It is often better to use more complicated formulas than simpler functions for your replacements.</p>
 </div>
 <div id="replacing-values-in-data-frames" class="section level1">
 <h1>Replacing values in data frames</h1>
-<p>Often in data analysis, we prefer to work within a single data frame than operating on individual vectors. <code>fauxnaif</code> is built to handle this use case.</p>
-<p>A simple solution is to use <code>na_if_in()</code> or <code>na_if_not()</code> within <code>dplyr</code>’s <code>mutate()</code> function.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#&gt; </span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#&gt; The following object is masked from &#39;package:fauxnaif&#39;:</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a><span class="co">#&gt; </span></span>
-<span id="cb20-6"><a href="#cb20-6"></a><span class="co">#&gt;     na_if</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb20-8"><a href="#cb20-8"></a><span class="co">#&gt; </span></span>
-<span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt;     filter, lag</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#&gt; </span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span id="cb20-13"><a href="#cb20-13"></a></span>
-<span id="cb20-14"><a href="#cb20-14"></a>faux_census <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">income =</span> <span class="kw">na_if_in</span>(income, <span class="dv">9999999</span>))</span>
-<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb20-16"><a href="#cb20-16"></a><span class="co">#&gt;    state  gender               age race            income religion              </span></span>
-<span id="cb20-17"><a href="#cb20-17"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                 </span></span>
-<span id="cb20-18"><a href="#cb20-18"></a><span class="co">#&gt;  1 CA     female                80 Native American  28000 Christian             </span></span>
-<span id="cb20-19"><a href="#cb20-19"></a><span class="co">#&gt;  2 NY     Woman                 89 Latino          148800 Spiritual not religio~</span></span>
-<span id="cb20-20"><a href="#cb20-20"></a><span class="co">#&gt;  3 CA     Female                48 White           479000 Catholic              </span></span>
-<span id="cb20-21"><a href="#cb20-21"></a><span class="co">#&gt;  4 TX     Male                  63 latinx           85000 christian             </span></span>
-<span id="cb20-22"><a href="#cb20-22"></a><span class="co">#&gt;  5 PA     Male                  47 asian            41900 Baptist               </span></span>
-<span id="cb20-23"><a href="#cb20-23"></a><span class="co">#&gt;  6 TX     Gender is a socia~    57 Race is a soci~     NA Religion is the opiat~</span></span>
-<span id="cb20-24"><a href="#cb20-24"></a><span class="co">#&gt;  7 Canada Male                  49 white           149000 methodist             </span></span>
-<span id="cb20-25"><a href="#cb20-25"></a><span class="co">#&gt;  8 TX     Female                50 White            98800 Lutheran              </span></span>
-<span id="cb20-26"><a href="#cb20-26"></a><span class="co">#&gt;  9 NY     f                    557 white            90750 Agnostic              </span></span>
-<span id="cb20-27"><a href="#cb20-27"></a><span class="co">#&gt; 10 WA     F                     33 White            45010 Jewish                </span></span>
-<span id="cb20-28"><a href="#cb20-28"></a><span class="co">#&gt; 11 TX     Male                  30 White           127000 none                  </span></span>
-<span id="cb20-29"><a href="#cb20-29"></a><span class="co">#&gt; 12 OH     Non-binary            42 Caucasian        21600 Roman Catholic        </span></span>
-<span id="cb20-30"><a href="#cb20-30"></a><span class="co">#&gt; 13 NC     Female                22 African Americ~  74200 atheist               </span></span>
-<span id="cb20-31"><a href="#cb20-31"></a><span class="co">#&gt; 14 LA     Male                   2 White            61000 Christian             </span></span>
-<span id="cb20-32"><a href="#cb20-32"></a><span class="co">#&gt; 15 LA     Female                28 Black            20000 Not religious         </span></span>
-<span id="cb20-33"><a href="#cb20-33"></a><span class="co">#&gt; 16 CA     male                  34 Asian American   77400 Christian             </span></span>
-<span id="cb20-34"><a href="#cb20-34"></a><span class="co">#&gt; 17 TN     M                     64 white               NA Nothing               </span></span>
-<span id="cb20-35"><a href="#cb20-35"></a><span class="co">#&gt; 18 FL     Female                68 white            47100 None                  </span></span>
-<span id="cb20-36"><a href="#cb20-36"></a><span class="co">#&gt; 19 OH     Male                  39 black            23800 baptist               </span></span>
-<span id="cb20-37"><a href="#cb20-37"></a><span class="co">#&gt; 20 NH     male                  73 Hispanic         33200 Christian</span></span></code></pre></div>
+<p>Often in data analysis, we prefer to work within a single data frame
+than operating on individual vectors. <code>fauxnaif</code> is built to
+handle this use case.</p>
+<p>A simple solution is to use <code>na_if_in()</code> or
+<code>na_if_not()</code> within <code>dplyr</code>’s
+<code>mutate()</code> function.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>faux_census <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">income =</span> <span class="fu">na_if_in</span>(income, <span class="dv">9999999</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 6</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    state  gender                         age race                income religion</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;   </span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 CA     female                          80 Native American      28000 Christi…</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 NY     Woman                           89 Latino              148800 Spiritu…</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 CA     Female                          48 White               479000 Catholic</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 TX     Male                            63 latinx               85000 christi…</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 PA     Male                            47 asian                41900 Baptist </span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 TX     Gender is a social construct    57 Race is a social c…     NA Religio…</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Canada Male                            49 white               149000 methodi…</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 TX     Female                          50 White                98800 Lutheran</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 NY     f                              557 white                90750 Agnostic</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 WA     F                               33 White                45010 Jewish  </span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 TX     Male                            30 White               127000 none    </span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 OH     Non-binary                      42 Caucasian            21600 Roman C…</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 NC     Female                          22 African American     74200 atheist </span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 LA     Male                             2 White                61000 Christi…</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 LA     Female                          28 Black                20000 Not rel…</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 CA     male                            34 Asian American       77400 Christi…</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 TN     M                               64 white                   NA Nothing </span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 FL     Female                          68 white                47100 None    </span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 OH     Male                            39 black                23800 baptist </span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 NH     male                            73 Hispanic             33200 Christi…</span></span></code></pre></div>
 </div>
 <div id="replacing-values-in-multiple-columns" class="section level1">
 <h1>Replacing values in multiple columns</h1>
-<p>Sometimes, the same replacement function can be used in multiple columns. Here, the respondent who didn’t give a real answer to the religion question seemed to do the same with the gender and race questions. You can specify multiple columns using <code>dplyr</code>’s <code>across()</code> is you would like to make replacements based on the same criteria:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>faux_census <span class="op">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="kw">across</span>(<span class="kw">c</span>(religion, gender, race), na_if_in, <span class="op">~</span><span class="st"> </span><span class="kw">nchar</span>(.) <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>))</span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="co">#&gt;    state  gender       age race              income religion               </span></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span></span>
-<span id="cb21-6"><a href="#cb21-6"></a><span class="co">#&gt;  1 CA     female        80 Native American    28000 Christian              </span></span>
-<span id="cb21-7"><a href="#cb21-7"></a><span class="co">#&gt;  2 NY     Woman         89 Latino            148800 Spiritual not religious</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a><span class="co">#&gt;  3 CA     Female        48 White             479000 Catholic               </span></span>
-<span id="cb21-9"><a href="#cb21-9"></a><span class="co">#&gt;  4 TX     Male          63 latinx             85000 christian              </span></span>
-<span id="cb21-10"><a href="#cb21-10"></a><span class="co">#&gt;  5 PA     Male          47 asian              41900 Baptist                </span></span>
-<span id="cb21-11"><a href="#cb21-11"></a><span class="co">#&gt;  6 TX     &lt;NA&gt;          57 &lt;NA&gt;             9999999 &lt;NA&gt;                   </span></span>
-<span id="cb21-12"><a href="#cb21-12"></a><span class="co">#&gt;  7 Canada Male          49 white             149000 methodist              </span></span>
-<span id="cb21-13"><a href="#cb21-13"></a><span class="co">#&gt;  8 TX     Female        50 White              98800 Lutheran               </span></span>
-<span id="cb21-14"><a href="#cb21-14"></a><span class="co">#&gt;  9 NY     f            557 white              90750 Agnostic               </span></span>
-<span id="cb21-15"><a href="#cb21-15"></a><span class="co">#&gt; 10 WA     F             33 White              45010 Jewish                 </span></span>
-<span id="cb21-16"><a href="#cb21-16"></a><span class="co">#&gt; 11 TX     Male          30 White             127000 none                   </span></span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="co">#&gt; 12 OH     Non-binary    42 Caucasian          21600 Roman Catholic         </span></span>
-<span id="cb21-18"><a href="#cb21-18"></a><span class="co">#&gt; 13 NC     Female        22 African American   74200 atheist                </span></span>
-<span id="cb21-19"><a href="#cb21-19"></a><span class="co">#&gt; 14 LA     Male           2 White              61000 Christian              </span></span>
-<span id="cb21-20"><a href="#cb21-20"></a><span class="co">#&gt; 15 LA     Female        28 Black              20000 Not religious          </span></span>
-<span id="cb21-21"><a href="#cb21-21"></a><span class="co">#&gt; 16 CA     male          34 Asian American     77400 Christian              </span></span>
-<span id="cb21-22"><a href="#cb21-22"></a><span class="co">#&gt; 17 TN     M             64 white            9999999 Nothing                </span></span>
-<span id="cb21-23"><a href="#cb21-23"></a><span class="co">#&gt; 18 FL     Female        68 white              47100 None                   </span></span>
-<span id="cb21-24"><a href="#cb21-24"></a><span class="co">#&gt; 19 OH     Male          39 black              23800 baptist                </span></span>
-<span id="cb21-25"><a href="#cb21-25"></a><span class="co">#&gt; 20 NH     male          73 Hispanic           33200 Christian</span></span></code></pre></div>
+<p>Sometimes, the same replacement function can be used in multiple
+columns. Here, the respondent who didn’t give a real answer to the
+religion question seemed to do the same with the gender and race
+questions. You can specify multiple columns using <code>dplyr</code>’s
+<code>across()</code> is you would like to make replacements based on
+the same criteria:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>faux_census <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(religion, gender, race), na_if_in, <span class="sc">~</span> <span class="fu">nchar</span>(.) <span class="sc">&gt;</span> <span class="dv">25</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 6</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    state  gender       age race              income religion               </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 CA     female        80 Native American    28000 Christian              </span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 NY     Woman         89 Latino            148800 Spiritual not religious</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 CA     Female        48 White             479000 Catholic               </span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 TX     Male          63 latinx             85000 christian              </span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 PA     Male          47 asian              41900 Baptist                </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 TX     &lt;NA&gt;          57 &lt;NA&gt;             9999999 &lt;NA&gt;                   </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Canada Male          49 white             149000 methodist              </span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 TX     Female        50 White              98800 Lutheran               </span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 NY     f            557 white              90750 Agnostic               </span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 WA     F             33 White              45010 Jewish                 </span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 TX     Male          30 White             127000 none                   </span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 OH     Non-binary    42 Caucasian          21600 Roman Catholic         </span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 NC     Female        22 African American   74200 atheist                </span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 LA     Male           2 White              61000 Christian              </span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 LA     Female        28 Black              20000 Not religious          </span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 CA     male          34 Asian American     77400 Christian              </span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 TN     M             64 white            9999999 Nothing                </span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 FL     Female        68 white              47100 None                   </span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 OH     Male          39 black              23800 baptist                </span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 NH     male          73 Hispanic           33200 Christian</span></span></code></pre></div>
 <div id="replacing-values-using-a-predicate-function" class="section level2">
 <h2>Replacing values using a predicate function</h2>
-<p>Rather than specifying columns manually, we can also select columns using a predicate function with <code>dplyr</code>’s <code>where()</code>.</p>
-<p>For example, we may want to remove strings of 9s in any numeric column:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>faux_census <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="kw">across</span>(<span class="kw">where</span>(is.numeric), na_if_in, <span class="op">~</span><span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;999&quot;</span>, .)))</span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="co">#&gt;    state  gender               age race            income religion              </span></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                 </span></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="co">#&gt;  1 CA     female                80 Native American  28000 Christian             </span></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="co">#&gt;  2 NY     Woman                 89 Latino          148800 Spiritual not religio~</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="co">#&gt;  3 CA     Female                48 White           479000 Catholic              </span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="co">#&gt;  4 TX     Male                  63 latinx           85000 christian             </span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt;  5 PA     Male                  47 asian            41900 Baptist               </span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co">#&gt;  6 TX     Gender is a socia~    57 Race is a soci~     NA Religion is the opiat~</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a><span class="co">#&gt;  7 Canada Male                  49 white           149000 methodist             </span></span>
-<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt;  8 TX     Female                50 White            98800 Lutheran              </span></span>
-<span id="cb22-13"><a href="#cb22-13"></a><span class="co">#&gt;  9 NY     f                    557 white            90750 Agnostic              </span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="co">#&gt; 10 WA     F                     33 White            45010 Jewish                </span></span>
-<span id="cb22-15"><a href="#cb22-15"></a><span class="co">#&gt; 11 TX     Male                  30 White           127000 none                  </span></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="co">#&gt; 12 OH     Non-binary            42 Caucasian        21600 Roman Catholic        </span></span>
-<span id="cb22-17"><a href="#cb22-17"></a><span class="co">#&gt; 13 NC     Female                22 African Americ~  74200 atheist               </span></span>
-<span id="cb22-18"><a href="#cb22-18"></a><span class="co">#&gt; 14 LA     Male                   2 White            61000 Christian             </span></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#&gt; 15 LA     Female                28 Black            20000 Not religious         </span></span>
-<span id="cb22-20"><a href="#cb22-20"></a><span class="co">#&gt; 16 CA     male                  34 Asian American   77400 Christian             </span></span>
-<span id="cb22-21"><a href="#cb22-21"></a><span class="co">#&gt; 17 TN     M                     64 white               NA Nothing               </span></span>
-<span id="cb22-22"><a href="#cb22-22"></a><span class="co">#&gt; 18 FL     Female                68 white            47100 None                  </span></span>
-<span id="cb22-23"><a href="#cb22-23"></a><span class="co">#&gt; 19 OH     Male                  39 black            23800 baptist               </span></span>
-<span id="cb22-24"><a href="#cb22-24"></a><span class="co">#&gt; 20 NH     male                  73 Hispanic         33200 Christian</span></span></code></pre></div>
+<p>Rather than specifying columns manually, we can also select columns
+using a predicate function with <code>dplyr</code>’s
+<code>where()</code>.</p>
+<p>For example, we may want to remove strings of 9s in any numeric
+column:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>faux_census <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), na_if_in, <span class="sc">~</span> <span class="fu">grepl</span>(<span class="st">&quot;999&quot;</span>, .)))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 6</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    state  gender                         age race                income religion</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;   </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 CA     female                          80 Native American      28000 Christi…</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 NY     Woman                           89 Latino              148800 Spiritu…</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 CA     Female                          48 White               479000 Catholic</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 TX     Male                            63 latinx               85000 christi…</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 PA     Male                            47 asian                41900 Baptist </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 TX     Gender is a social construct    57 Race is a social c…     NA Religio…</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Canada Male                            49 white               149000 methodi…</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 TX     Female                          50 White                98800 Lutheran</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 NY     f                              557 white                90750 Agnostic</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 WA     F                               33 White                45010 Jewish  </span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 TX     Male                            30 White               127000 none    </span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 OH     Non-binary                      42 Caucasian            21600 Roman C…</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 NC     Female                          22 African American     74200 atheist </span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 LA     Male                             2 White                61000 Christi…</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 LA     Female                          28 Black                20000 Not rel…</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 CA     male                            34 Asian American       77400 Christi…</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 TN     M                               64 white                   NA Nothing </span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 FL     Female                          68 white                47100 None    </span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 OH     Male                            39 black                23800 baptist </span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 NH     male                            73 Hispanic             33200 Christi…</span></span></code></pre></div>
 </div>
 <div id="replacing-values-in-all-columns" class="section level2">
 <h2>Replacing values in all columns</h2>
-<p>While this replacement was intended for three specific columns, no variable contains a legitimate answer longer than 25 characters. In this case, rather than specifying the variable of interest, we can simply use <code>dplyr</code>’s <code>everything()</code> to make the replacement in all columns:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>faux_census <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="kw">across</span>(<span class="kw">everything</span>(), na_if_in, <span class="op">~</span><span class="st"> </span><span class="kw">nchar</span>(.) <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>))</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co">#&gt;    state  gender       age race              income religion               </span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co">#&gt;  1 CA     female        80 Native American    28000 Christian              </span></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="co">#&gt;  2 NY     Woman         89 Latino            148800 Spiritual not religious</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt;  3 CA     Female        48 White             479000 Catholic               </span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt;  4 TX     Male          63 latinx             85000 christian              </span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="co">#&gt;  5 PA     Male          47 asian              41900 Baptist                </span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt;  6 TX     &lt;NA&gt;          57 &lt;NA&gt;             9999999 &lt;NA&gt;                   </span></span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co">#&gt;  7 Canada Male          49 white             149000 methodist              </span></span>
-<span id="cb23-12"><a href="#cb23-12"></a><span class="co">#&gt;  8 TX     Female        50 White              98800 Lutheran               </span></span>
-<span id="cb23-13"><a href="#cb23-13"></a><span class="co">#&gt;  9 NY     f            557 white              90750 Agnostic               </span></span>
-<span id="cb23-14"><a href="#cb23-14"></a><span class="co">#&gt; 10 WA     F             33 White              45010 Jewish                 </span></span>
-<span id="cb23-15"><a href="#cb23-15"></a><span class="co">#&gt; 11 TX     Male          30 White             127000 none                   </span></span>
-<span id="cb23-16"><a href="#cb23-16"></a><span class="co">#&gt; 12 OH     Non-binary    42 Caucasian          21600 Roman Catholic         </span></span>
-<span id="cb23-17"><a href="#cb23-17"></a><span class="co">#&gt; 13 NC     Female        22 African American   74200 atheist                </span></span>
-<span id="cb23-18"><a href="#cb23-18"></a><span class="co">#&gt; 14 LA     Male           2 White              61000 Christian              </span></span>
-<span id="cb23-19"><a href="#cb23-19"></a><span class="co">#&gt; 15 LA     Female        28 Black              20000 Not religious          </span></span>
-<span id="cb23-20"><a href="#cb23-20"></a><span class="co">#&gt; 16 CA     male          34 Asian American     77400 Christian              </span></span>
-<span id="cb23-21"><a href="#cb23-21"></a><span class="co">#&gt; 17 TN     M             64 white            9999999 Nothing                </span></span>
-<span id="cb23-22"><a href="#cb23-22"></a><span class="co">#&gt; 18 FL     Female        68 white              47100 None                   </span></span>
-<span id="cb23-23"><a href="#cb23-23"></a><span class="co">#&gt; 19 OH     Male          39 black              23800 baptist                </span></span>
-<span id="cb23-24"><a href="#cb23-24"></a><span class="co">#&gt; 20 NH     male          73 Hispanic           33200 Christian</span></span></code></pre></div>
+<p>While this replacement was intended for three specific columns, no
+variable contains a legitimate answer longer than 25 characters. In this
+case, rather than specifying the variable of interest, we can simply use
+<code>dplyr</code>’s <code>everything()</code> to make the replacement
+in all columns:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>faux_census <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), na_if_in, <span class="sc">~</span> <span class="fu">nchar</span>(.) <span class="sc">&gt;</span> <span class="dv">25</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 6</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    state  gender       age race              income religion               </span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 CA     female        80 Native American    28000 Christian              </span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 NY     Woman         89 Latino            148800 Spiritual not religious</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 CA     Female        48 White             479000 Catholic               </span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 TX     Male          63 latinx             85000 christian              </span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 PA     Male          47 asian              41900 Baptist                </span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 TX     &lt;NA&gt;          57 &lt;NA&gt;             9999999 &lt;NA&gt;                   </span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Canada Male          49 white             149000 methodist              </span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 TX     Female        50 White              98800 Lutheran               </span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 NY     f            557 white              90750 Agnostic               </span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 WA     F             33 White              45010 Jewish                 </span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 TX     Male          30 White             127000 none                   </span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 OH     Non-binary    42 Caucasian          21600 Roman Catholic         </span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 NC     Female        22 African American   74200 atheist                </span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 LA     Male           2 White              61000 Christian              </span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 LA     Female        28 Black              20000 Not religious          </span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 CA     male          34 Asian American     77400 Christian              </span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 TN     M             64 white            9999999 Nothing                </span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 FL     Female        68 white              47100 None                   </span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 OH     Male          39 black              23800 baptist                </span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 NH     male          73 Hispanic           33200 Christian</span></span></code></pre></div>
 </div>
 </div>
 <div id="putting-it-all-together" class="section level1">
 <h1>Putting it all together</h1>
-<p>In a data analysis pipeline, we can combine several steps to produce a usable dataset. Combining our interval check for age, our check for strings of 9s in numeric variables, and our check for long responses in character variables, we can yield much cleaner data:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>faux_census <span class="op">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb24-3"><a href="#cb24-3"></a>    <span class="dt">age =</span> <span class="kw">na_if_not</span>(age, <span class="dv">18</span><span class="op">:</span><span class="dv">122</span>),</span>
-<span id="cb24-4"><a href="#cb24-4"></a>    <span class="kw">across</span>(<span class="kw">where</span>(is.numeric), na_if_in, <span class="op">~</span><span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;999&quot;</span>, .)),</span>
-<span id="cb24-5"><a href="#cb24-5"></a>    <span class="kw">across</span>(<span class="kw">everything</span>(), na_if_in, <span class="op">~</span><span class="st"> </span><span class="kw">nchar</span>(.) <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>)</span>
-<span id="cb24-6"><a href="#cb24-6"></a>  )</span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a><span class="co">#&gt;    state  gender       age race             income religion               </span></span>
-<span id="cb24-9"><a href="#cb24-9"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;                  </span></span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="co">#&gt;  1 CA     female        80 Native American   28000 Christian              </span></span>
-<span id="cb24-11"><a href="#cb24-11"></a><span class="co">#&gt;  2 NY     Woman         89 Latino           148800 Spiritual not religious</span></span>
-<span id="cb24-12"><a href="#cb24-12"></a><span class="co">#&gt;  3 CA     Female        48 White            479000 Catholic               </span></span>
-<span id="cb24-13"><a href="#cb24-13"></a><span class="co">#&gt;  4 TX     Male          63 latinx            85000 christian              </span></span>
-<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt;  5 PA     Male          47 asian             41900 Baptist                </span></span>
-<span id="cb24-15"><a href="#cb24-15"></a><span class="co">#&gt;  6 TX     &lt;NA&gt;          57 &lt;NA&gt;                 NA &lt;NA&gt;                   </span></span>
-<span id="cb24-16"><a href="#cb24-16"></a><span class="co">#&gt;  7 Canada Male          49 white            149000 methodist              </span></span>
-<span id="cb24-17"><a href="#cb24-17"></a><span class="co">#&gt;  8 TX     Female        50 White             98800 Lutheran               </span></span>
-<span id="cb24-18"><a href="#cb24-18"></a><span class="co">#&gt;  9 NY     f             NA white             90750 Agnostic               </span></span>
-<span id="cb24-19"><a href="#cb24-19"></a><span class="co">#&gt; 10 WA     F             33 White             45010 Jewish                 </span></span>
-<span id="cb24-20"><a href="#cb24-20"></a><span class="co">#&gt; 11 TX     Male          30 White            127000 none                   </span></span>
-<span id="cb24-21"><a href="#cb24-21"></a><span class="co">#&gt; 12 OH     Non-binary    42 Caucasian         21600 Roman Catholic         </span></span>
-<span id="cb24-22"><a href="#cb24-22"></a><span class="co">#&gt; 13 NC     Female        22 African American  74200 atheist                </span></span>
-<span id="cb24-23"><a href="#cb24-23"></a><span class="co">#&gt; 14 LA     Male          NA White             61000 Christian              </span></span>
-<span id="cb24-24"><a href="#cb24-24"></a><span class="co">#&gt; 15 LA     Female        28 Black             20000 Not religious          </span></span>
-<span id="cb24-25"><a href="#cb24-25"></a><span class="co">#&gt; 16 CA     male          34 Asian American    77400 Christian              </span></span>
-<span id="cb24-26"><a href="#cb24-26"></a><span class="co">#&gt; 17 TN     M             64 white                NA Nothing                </span></span>
-<span id="cb24-27"><a href="#cb24-27"></a><span class="co">#&gt; 18 FL     Female        68 white             47100 None                   </span></span>
-<span id="cb24-28"><a href="#cb24-28"></a><span class="co">#&gt; 19 OH     Male          39 black             23800 baptist                </span></span>
-<span id="cb24-29"><a href="#cb24-29"></a><span class="co">#&gt; 20 NH     male          73 Hispanic          33200 Christian</span></span></code></pre></div>
+<p>In a data analysis pipeline, we can combine several steps to produce
+a usable dataset. Combining our interval check for age, our check for
+strings of 9s in numeric variables, and our check for long responses in
+character variables, we can yield much cleaner data:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>faux_census <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">na_if_not</span>(age, <span class="dv">18</span><span class="sc">:</span><span class="dv">122</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), na_if_in, <span class="sc">~</span> <span class="fu">grepl</span>(<span class="st">&quot;999&quot;</span>, .)),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">everything</span>(), na_if_in, <span class="sc">~</span> <span class="fu">nchar</span>(.) <span class="sc">&gt;</span> <span class="dv">25</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 6</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    state  gender       age race             income religion               </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;                  </span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 CA     female        80 Native American   28000 Christian              </span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 NY     Woman         89 Latino           148800 Spiritual not religious</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 CA     Female        48 White            479000 Catholic               </span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 TX     Male          63 latinx            85000 christian              </span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 PA     Male          47 asian             41900 Baptist                </span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 TX     &lt;NA&gt;          57 &lt;NA&gt;                 NA &lt;NA&gt;                   </span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Canada Male          49 white            149000 methodist              </span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 TX     Female        50 White             98800 Lutheran               </span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 NY     f             NA white             90750 Agnostic               </span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 WA     F             33 White             45010 Jewish                 </span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 TX     Male          30 White            127000 none                   </span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 OH     Non-binary    42 Caucasian         21600 Roman Catholic         </span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 NC     Female        22 African American  74200 atheist                </span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 LA     Male          NA White             61000 Christian              </span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 LA     Female        28 Black             20000 Not religious          </span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 CA     male          34 Asian American    77400 Christian              </span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 TN     M             64 white                NA Nothing                </span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 FL     Female        68 white             47100 None                   </span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 OH     Male          39 black             23800 baptist                </span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 NH     male          73 Hispanic          33200 Christian</span></span></code></pre></div>
 </div>
 
 
