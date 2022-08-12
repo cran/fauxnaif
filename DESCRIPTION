@@ -1,6 +1,6 @@
 Package: fauxnaif
 Title: Convert Values to NA
-Version: 0.7.0
+Version: 0.7.1
 Authors@R: 
     person("Alexander", "Rossell Hayes", , "alexander@rossellhayes.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-9412-0457"))
@@ -20,11 +20,11 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2022-04-27 21:46:49 UTC; alex
+Packaged: 2022-08-12 17:10:09 UTC; alex
 Author: Alexander Rossell Hayes [aut, cre, cph]
     (<https://orcid.org/0000-0001-9412-0457>)
 Maintainer: Alexander Rossell Hayes <alexander@rossellhayes.com>
 Repository: CRAN
-Date/Publication: 2022-04-27 22:00:09 UTC
+Date/Publication: 2022-08-12 17:30:02 UTC

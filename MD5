@@ -1,7 +1,7 @@
-cd06e418c02e9f3131b7d4b792cfc18b *DESCRIPTION
+580577c168ae015b686820a53f742116 *DESCRIPTION
 02e30b71acae5c03bf2a6ac55a234b61 *LICENSE
 c439696cb591bf995d4717050bd6e382 *NAMESPACE
-81268fce60cb10d0701988d68c913333 *NEWS.md
+9c13edcf7483289e1fb45015d16b72cc *NEWS.md
 e26a051ccbcdb1f27f3ca6d707e2151c *R/assertions.R
 12bf8c5c9f29b88fd9cc6bad500f8186 *R/faux_census.r
 e0ef681901465d24f47f9139cb2c086a *R/fauxnaif-package.R
@@ -15,9 +15,9 @@ ebb5a99fb5e3f07addcb8a5f1b62be74 *build/vignette.rds
 be0a46fc0b81377f13812a54b7dcf1fb *inst/CITATION
 dd3abbfa3d9b75ad062b103b481c25be *inst/doc/fauxnaif.R
 092b131bb2b1cbce19db74f24ad94e93 *inst/doc/fauxnaif.Rmd
-97d1ff2882d6aa53102fc7b1c02ae616 *inst/doc/fauxnaif.html
+d2009f19723784b279dcf0e5c8f2aa04 *inst/doc/fauxnaif.html
 499b99509c587499b16ad29bc8e99dfa *man/faux_census.Rd
-a8ef1a2856c935b70aafc766edc7ed36 *man/fauxnaif-package.Rd
+a51d2a8d8c355948f6ceb1cefb9ea31d *man/fauxnaif-package.Rd
 f8719812bbe723913d7eb7676d86a60c *man/figures/logo.png
 4609d72625ea7c9b84c9095ca3243240 *man/figures/logo.pptx
 562f0a378225e4756f15997ca1b687b3 *man/na_if_in.Rd
